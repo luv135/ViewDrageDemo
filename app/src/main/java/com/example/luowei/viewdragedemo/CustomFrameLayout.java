@@ -33,12 +33,16 @@ public class CustomFrameLayout extends FrameLayout {
         @Override
         public void onViewPositionChanged(View changedView, int left, int top,
                                           int dx, int dy) {
+
             System.out.println(String.format("left=%d, top=%d, dx=%d, dy=%d", left, top, dx, dy));
         }
 
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return true;
+            if(child.getId()==R.id.main){
+                return true;
+            }
+            return false;
         }
 
         @Override
@@ -61,7 +65,7 @@ public class CustomFrameLayout extends FrameLayout {
 
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
-            System.out.println(String.format("top=%d, dy=%d",top,dy));
+            System.out.println(String.format("top=%d, dy=%d", top, dy));
             return top;
         }
     }
