@@ -43,6 +43,7 @@ public class SliderPanel extends FrameLayout {
     private boolean mIsLocked = false;
     private boolean mIsEdgeTouched = false;
     private int mEdgePosition;
+    private boolean disallowIntercept;
 
 
     /**
@@ -79,7 +80,7 @@ public class SliderPanel extends FrameLayout {
 
         callback = mLeftCallback;
         mEdgePosition = ViewDragHelper.EDGE_LEFT;
-              
+
 
         mDragHelper = ViewDragHelper.create(this, 1, callback);
         mDragHelper.setMinVelocity(minVel);
@@ -89,8 +90,7 @@ public class SliderPanel extends FrameLayout {
 
         // Setup the dimmer view
         mDimView = new View(getContext());
-        
-        
+
 
         // Add the dimmer view to the layout
         addView(mDimView);
@@ -109,24 +109,33 @@ public class SliderPanel extends FrameLayout {
 
     }
 
+
+    @Override
+    public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        Log.d("requestDisallowInter", "disallowIntercept: " + disallowIntercept);
+        super.requestDisallowInterceptTouchEvent(disallowIntercept);
+        this.disallowIntercept = disallowIntercept;
+
+    }
+
     /***********************************************************************************************
      * Touch Methods
      */
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-
-        Log.d("onInterceptTouchEvent ", "onInterceptTouchEvent: " +super.onInterceptTouchEvent(ev));
-//        if(!super.onInterceptTouchEvent(ev)){
+        Log.d("onInterceptTouchEvent ", "disallowIntercept: " +disallowIntercept);
+//        if (disallowIntercept){
+//            Log.d("onInterceptTouchEvent ", "disallowIntercept: " +disallowIntercept);
 //            return false;
 //        }
+
         boolean interceptForDrag;
 
         if (mIsLocked) {
             return false;
         }
 
-       
 
         // Fix for pull request #13 and issue #12
         try {
@@ -178,7 +187,6 @@ public class SliderPanel extends FrameLayout {
         mIsLocked = false;
     }
 
-  
 
     /***********************************************************************************************
      *
@@ -194,7 +202,7 @@ public class SliderPanel extends FrameLayout {
 
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-        
+
             return child.getId() == mDecorView.getId();
         }
 
@@ -219,7 +227,7 @@ public class SliderPanel extends FrameLayout {
 
             if (xvel > 0) {
 
-                if (Math.abs(xvel) > 5f&& !isVerticalSwiping) {
+                if (Math.abs(xvel) > 5f && !isVerticalSwiping) {
                     settleLeft = mScreenWidth;
                 } else if (left > leftThreshold) {
                     settleLeft = mScreenWidth;
@@ -277,8 +285,8 @@ public class SliderPanel extends FrameLayout {
     private ViewDragHelper.Callback mRightCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-         
-            return child.getId() == mDecorView.getId() ;
+
+            return child.getId() == mDecorView.getId();
         }
 
         @Override
@@ -297,7 +305,7 @@ public class SliderPanel extends FrameLayout {
 
             int left = releasedChild.getLeft();
             int settleLeft = 0;
-            int leftThreshold = (int) (getWidth() *  0.25f);
+            int leftThreshold = (int) (getWidth() * 0.25f);
             boolean isVerticalSwiping = Math.abs(yvel) > 5f;
 
             if (xvel < 0) {
@@ -353,12 +361,11 @@ public class SliderPanel extends FrameLayout {
         }
     };
 
-  
 
     /**
      * The drag helper callbacks for dragging the slidr attachment from the bottom of hte screen
      */
-    
+
 
     /**
      * The drag helper callbacks for dragging the slidr attachment in both vertical directions
@@ -380,7 +387,7 @@ public class SliderPanel extends FrameLayout {
      * @param percent
      */
     public void applyScrim(float percent) {
-        float alpha = (percent * (0.8f- 0f)) + 0f;
+        float alpha = (percent * (0.8f - 0f)) + 0f;
         mDimView.setAlpha(alpha);
     }
 

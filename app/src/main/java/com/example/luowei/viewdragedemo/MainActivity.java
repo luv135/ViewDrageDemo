@@ -3,13 +3,18 @@ package com.example.luowei.viewdragedemo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.orhanobut.logger.Logger;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         oldScreen.setId(R.id.slidable_content);
         panel.addView(oldScreen);
         decorView.addView(panel, 0);
-
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
                 }, 2000);
             }
         });
+
+        NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.scroll);
 
     }
 
