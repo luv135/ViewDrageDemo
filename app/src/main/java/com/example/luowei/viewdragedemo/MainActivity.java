@@ -1,5 +1,7 @@
 package com.example.luowei.viewdragedemo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -50,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
         NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.scroll);
 
+
+        launch(ViewPagerActivity.class);
+    }
+
+    private void launch(Class<? extends Activity> aClass) {
+        startActivity(new Intent(this,aClass));
     }
 
     @Override

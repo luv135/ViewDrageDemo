@@ -125,10 +125,6 @@ public class SliderPanel extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         Log.d("onInterceptTouchEvent ", "disallowIntercept: " +disallowIntercept);
-//        if (disallowIntercept){
-//            Log.d("onInterceptTouchEvent ", "disallowIntercept: " +disallowIntercept);
-//            return false;
-//        }
 
         boolean interceptForDrag;
 
